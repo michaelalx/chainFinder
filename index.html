@@ -69,16 +69,17 @@ function parseCSV(text){
 }
 function shape(records){
   const H={sub:'Υποκατηγορία',brand:'Brand',sku:'SKU',desc:'Περιγραφή webApp',
-           mount:'Mount',pitch:'Pitch',gauge:'Gauge',links:'links',lcm:'length cm',lin:'length "',key:'group_key'};
+           mount:'Mount',pitch:'Pitch',gauge:'Gauge',links:'links',lcm:'length cm',lin:'length "',key:'group_key',own:'OwnProduct'};
   const bad=new Set(['','nan','none','undefined']); const good=v=>v&&!bad.has(String(v).trim().toLowerCase());
+  const isOwn=r=>parseFloat(r[H.own])===1;
   const GAUGES=new Set(['1.1','1.3','1.5','1.6']); const MACHINE=new Set(['αλυσοπρίονα','κονταροπρίονα']);
   const lc=v=>String(v||'').trim().toLowerCase(); const intOf=v=>{const n=parseFloat(v);return Number.isFinite(n)?Math.round(n):null;};
   const machines=[],bars=[],chains=[];
   for(const r of records){const sub=lc(r[H.sub]);
     if(MACHINE.has(sub)){ const k=r[H.key];
       if(good(k)&&good(r[H.desc])) machines.push({b:r[H.brand],n:r[H.desc],sku:r[H.sku],mount:r[H.mount],pitch:r[H.pitch],gauge:r[H.gauge],links:r[H.links],lcm:r[H.lcm],lin:r[H.lin],k:String(k).trim()});
-    }else if(sub==='λάμες'){ if(good(r[H.key])) bars.push({br:r[H.brand],d:r[H.desc],sku:r[H.sku],k:String(r[H.key]).trim()});
-    }else if(sub==='αλυσίδες τεμάχια'){ let p=r[H.pitch],g=r[H.gauge],l=r[H.links];
+    }else if(sub==='λάμες'){ if(good(r[H.key])&&isOwn(r)) bars.push({br:r[H.brand],d:r[H.desc],sku:r[H.sku],k:String(r[H.key]).trim()});
+    }else if(sub==='αλυσίδες τεμάχια'){ if(!isOwn(r)) continue; let p=r[H.pitch],g=r[H.gauge],l=r[H.links];
       if(GAUGES.has(String(l).trim())){p=r[H.gauge];g=r[H.links];l=r[H.lcm];}
       const li=intOf(l); if(good(p)&&good(g)&&li!=null) chains.push({br:r[H.brand],d:r[H.desc],sku:r[H.sku],k:`${String(p).trim()}-${String(g).trim()}-${li}`});
     }}

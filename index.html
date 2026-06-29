@@ -70,14 +70,14 @@
 <!-- TAB 2: choose our chain -> compatible chainsaws (ours + competition) -->
 <div class="panel" id="panel-byChain">
  <div class="pickers">
-  <div class="field"><label>Μάρκα Αλυσίδας (δικές μας)</label><select id="cbrand" disabled></select></div>
+  <div class="field"><label>Μάρκα Αλυσίδας (ΠΠΑΕΒΕ)</label><select id="cbrand" disabled></select></div>
   <div class="field"><label>Αλυσίδα</label><select id="cmodel" disabled></select></div>
  </div>
  <div class="detail" id="cdetail"><p class="title" id="cd-name"></p><p class="sku" id="cd-sku"></p></div>
  <div class="cols">
   <div class="col saws full"><h2>Συμβατά Αλυσοπρίονα <span class="cnt" id="sc"></span></h2><ul id="saws"><li class="empty">Επιλέξτε αλυσίδα</li></ul></div>
  </div>
- <p class="legend"><span class="tag">δικό μας</span> = αλυσοπρίονο που διαθέτουμε · υπόλοιπα = ανταγωνισμός</p>
+ <p class="legend"><span class="tag">ΠΠΑΕΒΕ</span> = αλυσοπρίονο που διαθέτουμε · υπόλοιπα = ανταγωνισμός</p>
 </div>
 </div>
 <script>
@@ -195,7 +195,7 @@ function render2(){
   for(const k of bcKeys) for(const m of (machinesByBC[k]||[])) sMap.set(m.b+'|'+m.n, m);
   const saws=[...sMap.values()].sort((a,b)=>(a.b+a.n).localeCompare(b.b+b.n,'el'));
   $('sc').textContent=saws.length;
-  const li=m=>`<li>${esc(m.b+' - '+m.n)}${m.own?'<span class="tag">δικό μας</span>':'<span class="tag comp">ανταγ.</span>'}</li>`;
+  const li=m=>`<li>${esc(m.b+' - '+m.n)}${m.own?'<span class="tag">ΠΠΑΕΒΕ</span>':'<span class="tag comp">ανταγ.</span>'}</li>`;
   sawsUl.innerHTML=saws.length?saws.map(li).join(''):'<li class="empty">Δεν βρέθηκαν συμβατά αλυσοπρίονα</li>';
 }
 /* ---------- load CSV ---------- */
